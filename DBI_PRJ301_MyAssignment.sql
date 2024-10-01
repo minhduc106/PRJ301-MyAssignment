@@ -12,13 +12,13 @@ CREATE TABLE Employee (
 );
 
 INSERT INTO Employee (e_Name, e_Level)
-VALUES ('Nguyễn Văn A', 'F1');
+VALUES (N'Nguyễn Văn X ', 'F1');
 
 INSERT INTO Employee (e_Name, e_Level)
-VALUES ('Trần Thị B', 'F2');
+VALUES (N'Trần Thế Mỹ', 'F2');
 
 INSERT INTO Employee (e_Name, e_Level)
-VALUES ('Lê Minh C', 'F3');
+VALUES (N'Bao Chửng', 'F3');
 
 
 

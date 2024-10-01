@@ -14,8 +14,8 @@
     <body>
          <table border="1px">
             <tr>
-                <td>Id</td>
-                <td>Name</td>
+                <td>ID</td>
+                <td>Full Name</td>
                 <td>Salary Level</td>
                 <td>Hourly rate</td>
             <tr/>
