@@ -9,52 +9,47 @@ package model;
  * @author Minh Duc
  */
 public class Employee {
-    private String e_ID;
-    private String e_Name;
-    private String e_Level;
-    private int e_HourlyRate;
+    private int eid;
+    private String ename;
+    private String salaryLevel;
+    private Department department;
 
-    public Employee() {
+    public Employee(int eid, String ename, String salaryLevel, Department department) {
+        this.eid = eid;
+        this.ename = ename;
+        this.salaryLevel = salaryLevel;
+        this.department = department;
     }
 
-    public Employee(String e_ID, String e_Name, String e_Level, int e_HourlyRate) {
-        this.e_ID = e_ID;
-        this.e_Name = e_Name;
-        this.e_Level = e_Level;
-        this.e_HourlyRate = e_HourlyRate;
+    public int getEid() {
+        return eid;
     }
 
-    public String getE_ID() {
-        return e_ID;
+    public void setEid(int eid) {
+        this.eid = eid;
     }
 
-    public void setE_ID(String e_ID) {
-        this.e_ID = e_ID;
+    public String getEname() {
+        return ename;
     }
 
-    public String getE_Name() {
-        return e_Name;
+    public void setEname(String ename) {
+        this.ename = ename;
     }
 
-    public void setE_Name(String e_Name) {
-        this.e_Name = e_Name;
+    public String getSalaryLevel() {
+        return salaryLevel;
     }
 
-    public String getE_Level() {
-        return e_Level;
+    public void setSalaryLevel(String salaryLevel) {
+        this.salaryLevel = salaryLevel;
     }
 
-    public void setE_Level(String e_Level) {
-        this.e_Level = e_Level;
+    public Department getDepartment() {
+        return department;
     }
 
-    public int getE_HourlyRate() {
-        return e_HourlyRate;
-    }
-
-    public void setE_HourlyRate(int e_HourlyRate) {
-        this.e_HourlyRate = e_HourlyRate;
-    }
-    
-    
+    public void setDepartment(Department department) {
+        this.department = department;
+    }   
 }

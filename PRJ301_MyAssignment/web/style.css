@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #cccccc;
+    background: linear-gradient(300deg,white,gainsboro);
 }
 
 .login {

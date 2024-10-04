@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.accescontrol;
+package controller.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Minh Duc
  */
-public class Controller extends HttpServlet {
+public class EmployeeUpdateController extends HttpServlet {
    
     /** 
      * Processes reqs for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +33,10 @@ public class Controller extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Controller</title>");  
+            out.println("<title>Servlet EmployeeUpdateController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Controller at " + req.getContextPath () + "</h1>");
+            out.println("<h1>Servlet EmployeeUpdateController at " + req.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

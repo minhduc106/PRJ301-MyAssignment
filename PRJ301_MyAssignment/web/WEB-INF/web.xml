@@ -9,8 +9,16 @@
         <servlet-class>controller.accescontrol.LoginController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>controller.accescontrol.Controller</servlet-class>
+        <servlet-name>EmployeeCreateController</servlet-name>
+        <servlet-class>controller.employee.EmployeeCreateController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmployeeUpdateController</servlet-name>
+        <servlet-class>controller.employee.EmployeeUpdateController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmployeeDeleteController</servlet-name>
+        <servlet-class>controller.employee.EmployeeDeleteController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EmployeeListController</servlet-name>
@@ -21,7 +29,15 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/controller</url-pattern>
+        <servlet-name>EmployeeCreateController</servlet-name>
+        <url-pattern>/controller/employee/create</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeUpdateController</servlet-name>
+        <url-pattern>/controller/employee/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeDeleteController</servlet-name>
+        <url-pattern>/controller/employee/delete</url-pattern>
     </servlet-mapping>
 </web-app>
