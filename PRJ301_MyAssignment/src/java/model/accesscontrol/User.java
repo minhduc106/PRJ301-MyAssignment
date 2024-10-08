@@ -19,6 +19,11 @@ public class User {
     private ArrayList<Role> roles = new ArrayList<>();
     private Employee employee;
 
+    public User() {
+    }
+
+    
+    
     public User(String username, String password, String displayname, Employee employee) {
         this.username = username;
         this.password = password;

@@ -19,14 +19,6 @@
                 <td>Salary Level</td>
                 <td>Hourly rate</td>
             <tr/>
-            <c:forEach items="${requestScope.emps}" var="e">
-                <tr>
-                    <td>${e.e_ID}</td>
-                    <td>${e.e_Name}</td>
-                    <td>${e.e_Level}</td>
-                    <td>${e.e_HourlyRate}</td>
-                <tr/>
-            </c:forEach>    
         </table>
     </body>
 </html>

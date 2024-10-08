@@ -4,21 +4,38 @@
  */
 package model;
 
+import model.accesscontrol.User;
+
 /**
  *
  * @author Minh Duc
  */
 public class Employee {
+
     private int eid;
     private String ename;
     private String salaryLevel;
     private Department department;
+    private User createdby;
 
-    public Employee(int eid, String ename, String salaryLevel, Department department) {
+    public Employee(int eid, String ename, String salaryLevel, Department department, User createdby) {
         this.eid = eid;
         this.ename = ename;
         this.salaryLevel = salaryLevel;
         this.department = department;
+        this.createdby = createdby;
+    }
+
+    public User getCreatedby() {
+        return createdby;
+    }
+
+    public void setCreatedby(User createdby) {
+        this.createdby = createdby;
+    }
+
+    public Employee() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getEid() {
@@ -51,5 +68,5 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
-    }   
+    }
 }
