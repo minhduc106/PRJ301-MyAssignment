@@ -1,76 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quản Đốc - Hệ Thống Quản Lý Sản Xuất</title>
-        <link rel="stylesheet" type="text/css" href="headerStyle.css">
-    </head>
-    <body>
-
-        <!-- Phần header -->
-        <header>
-            <div class="header-content">
-                <h1>Hệ Thống Quản Lý Sản Xuất</h1>
-                <p>Chào mừng, ${sessionScope} </p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - ABC Company</title>
+    <link rel="stylesheet" href="headerStyle.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <nav class="navbar">
+            <ul class="menu">
+                <c:choose>
+                    <c:when test="${user.role == 'admin'}">
+                        <li><a href="manageEmployees.jsp">Manage Employees</a></li>
+                        <li><a href="productionPlan.jsp">View Production Plans</a></li>
+                        <li><a href="workshopOverview.jsp">Workshop Overview</a></li>
+                    </c:when>
+                    <c:when test="${user.role == 'manager'}">
+                        <li><a href="productionSchedule.jsp">Create Production Schedule</a></li>
+                        <li><a href="attendanceTracking.jsp">Track Attendance</a></li>
+                    </c:when>
+                    <c:when test="${user.role == 'worker'}">
+                        <li><a href="workSchedule.jsp">View My Work Schedule</a></li>
+                        <li><a href="performanceReport.jsp">View Performance Report</a></li>
+                    </c:when>
+                </c:choose>
+            </ul>
+            <div class="logout">
+                <form action="LogoutController" method="post">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
             </div>
-        </header>
-
-        <!-- Thanh điều hướng -->
-        <nav>
-            <a href="#">Trang Chủ</a>
-            <a href="#">Phân Công Công Nhân</a>
-            <a href="#">Theo Dõi Sản Xuất</a>
-            <a href="#">Báo Cáo Chấm Công</a>
-            <a href="#">Đăng Xuất</a>
         </nav>
-
-
-        <!-- Phần nội dung chính -->
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Tìm hiểu và quản lý công việc của bạn một cách hiệu quả</h2>
-                <p>Hệ thống giúp bạn phân công, theo dõi và quản lý sản xuất dễ dàng hơn.</p>
-                <a href="#" class="btn-primary">Bắt đầu</a>
-            </div>
-        </section>
-
-        <!-- Các chức năng chính -->
-        <section class="features">
-            <div class="container">
-                <div class="feature-card">
-                    <h3>Phân Công Công Nhân</h3>
-                    <p>Phân chia công việc cho công nhân theo ca</p>
-                    <a href="/controller/shift/assign" class="btn-secondary">Bắt đầu</a>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Theo Dõi Sản Xuất</h3>
-                    <p>Xem báo cáo sản xuất hàng ngày</p>
-                    <a href="/controller/production/dailyreport" class="btn-secondary">Xem chi tiết</a>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Cập Nhật Hiệu Suất</h3>
-                    <p>Cập nhật hệ số alpha cho công nhân</p>
-                    <a href="/controller/performance/update" class="btn-secondary">Cập nhật</a>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Báo Cáo Chấm Công</h3>
-                    <p>Tạo báo cáo chấm công hàng ngày</p>
-                    <a href="/controller/attendance/report" class="btn-secondary">Tạo báo cáo</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Phần footer -->
-        <footer>
-            <div class="footer-content">
-                <p>© 2024 Hệ Thống Quản Lý Sản Xuất - ABC Company</p>
-            </div>
-        </footer>
-
-    </body>
+    </header>
+    <main class="content">
+        <h1>Welcome, <c:out value="${user.name}" /></h1>
+        <p>Select an option from the menu to get started.</p>
+    </main>
+</body>
 </html>

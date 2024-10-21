@@ -24,28 +24,36 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.accescontrol.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductionPlanCreate</servlet-name>
+        <servlet-class>controller.productionplan.ProductionPlanCreate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EmployeeListController</servlet-name>
-        <url-pattern>/controller/employee/list</url-pattern>
+        <url-pattern>/employees/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/Login/login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EmployeeCreateController</servlet-name>
-        <url-pattern>/controller/employee/create</url-pattern>
+        <url-pattern>/employees/create</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EmployeeUpdateController</servlet-name>
-        <url-pattern>/controller/employee/update</url-pattern>
+        <url-pattern>/employees/update</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EmployeeDeleteController</servlet-name>
-        <url-pattern>/controller/employee/delete</url-pattern>
+        <url-pattern>/employees/delete</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductionPlanCreate</servlet-name>
+        <url-pattern>/productionplan/create</url-pattern>
     </servlet-mapping>
 </web-app>

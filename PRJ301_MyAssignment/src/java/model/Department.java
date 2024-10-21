@@ -13,11 +13,6 @@ public class Department {
     private String dname;
     private String dtype;
 
-    public Department(int did, String dname, String dtype) {
-        this.did = did;
-        this.dname = dname;
-        this.dtype = dtype;
-    }
 
     public int getDid() {
         return did;

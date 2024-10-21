@@ -9,42 +9,34 @@ package model;
  * @author Minh Duc
  */
 public class Product {
-    private int p_ID;
-    private String p_Name;
-    private double p_Effort;
+    private int pID;
+    private String pName;
+    private double pEffort;
 
-    public Product() {
+    public int getpID() {
+        return pID;
     }
 
-    public Product(int p_ID, String p_Name, double p_Effort) {
-        this.p_ID = p_ID;
-        this.p_Name = p_Name;
-        this.p_Effort = p_Effort;
+    public void setpID(int pID) {
+        this.pID = pID;
     }
 
-    public int getP_ID() {
-        return p_ID;
+    public String getpName() {
+        return pName;
     }
 
-    public void setP_ID(int p_ID) {
-        this.p_ID = p_ID;
+    public void setpName(String pName) {
+        this.pName = pName;
     }
 
-    public String getP_Name() {
-        return p_Name;
+    public double getpEffort() {
+        return pEffort;
     }
 
-    public void setP_Name(String p_Name) {
-        this.p_Name = p_Name;
+    public void setpEffort(double pEffort) {
+        this.pEffort = pEffort;
     }
 
-    public double getP_Effort() {
-        return p_Effort;
-    }
-
-    public void setP_Effort(double p_Effort) {
-        this.p_Effort = p_Effort;
-    }
     
     
 }

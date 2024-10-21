@@ -1,0 +1,29 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 20, 2024, 3:09:01 PM
+    Author     : Minh Duc
+*/
+
+footer {
+    background-color: #3498db; /* Background color */
+    color: white; /* Text color */
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0; /* Đảm bảo tràn hết từ trái */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng để nhìn đẹp hơn */
+    z-index: 1000; /* Đảm bảo luôn nổi trên các thành phần khác */
+}
+
+footer p {
+    margin: 0;
+}
+
+
+

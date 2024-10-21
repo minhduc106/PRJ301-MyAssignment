@@ -12,13 +12,13 @@ import model.accesscontrol.User;
  */
 public class Employee {
 
-    private int eid;
+    private String eid;
     private String ename;
     private String salaryLevel;
     private Department department;
     private User createdby;
 
-    public Employee(int eid, String ename, String salaryLevel, Department department, User createdby) {
+    public Employee(String eid, String ename, String salaryLevel, Department department, User createdby) {
         this.eid = eid;
         this.ename = ename;
         this.salaryLevel = salaryLevel;
@@ -38,11 +38,11 @@ public class Employee {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public int getEid() {
+    public String getEid() {
         return eid;
     }
 
-    public void setEid(int eid) {
+    public void setEid(String eid) {
         this.eid = eid;
     }
 

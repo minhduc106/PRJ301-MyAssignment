@@ -14,12 +14,14 @@ public class PlanCampaign {
     private Plan plan;
     private Product product;
     private int quantity;
+    private float estimatedeffort;
 
-    public PlanCampaign(int canid, Plan plan, Product product, int quantity) {
-        this.canid = canid;
-        this.plan = plan;
-        this.product = product;
-        this.quantity = quantity;
+    public float getEstimatedeffort() {
+        return estimatedeffort;
+    }
+
+    public void setEstimatedeffort(float estimatedeffort) {
+        this.estimatedeffort = estimatedeffort;
     }
 
     public int getCanid() {

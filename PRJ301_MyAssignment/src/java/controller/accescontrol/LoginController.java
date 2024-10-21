@@ -4,6 +4,7 @@
  */
 package controller.accescontrol;
 
+import dal.FeatureDBContext;
 import dal.UserDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.*;
 import model.accesscontrol.User;
 
@@ -31,7 +33,7 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/Login/login.jsp").forward(request, response);
 
     }
 
@@ -69,6 +71,9 @@ public class LoginController extends HttpServlet {
         if (account != null) {
             request.getSession().setAttribute("account", account);
             response.getWriter().println("login successful!");
+            FeatureDBContext dbFeature = new FeatureDBContext();
+            HttpSession session = request.getSession();
+            session.setAttribute("features", dbFeature.get(account.getUsername()));
         } else {
             response.getWriter().println("login failed!");
         }

@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,11 +18,14 @@ public class Plan {
     private Date endd;
     private Department department;
 
-    public Plan(int plid, Date startd, Date endd, Department department) {
-        this.plid = plid;
-        this.startd = startd;
-        this.endd = endd;
-        this.department = department;
+    private ArrayList<PlanCampaign> campaigns = new ArrayList<>();
+
+    public ArrayList<PlanCampaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public void setCampaigns(ArrayList<PlanCampaign> campains) {
+        this.campaigns = campains;
     }
 
     public int getPlid() {
@@ -55,6 +59,5 @@ public class Plan {
     public void setDepartment(Department department) {
         this.department = department;
     }
-    
-    
+
 }
