@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ui/footer.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ui/footerstyles.css">
 <footer>
     <p>&copy; 2024 ABC Company</p>
 </footer>

@@ -6,12 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ui/header.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ui/headerstyles.css">
 <header>
     <nav>
         <ul>
             <c:forEach items="${sessionScope.features}" var="feature">
-                <li><a href="#">${feature}</a></li>
+                <li><a href="${feature.url}">${feature.name}</a></li>
             </c:forEach>
         </ul>
         <a href="${pageContext.request.contextPath}/logout" class="logout">Logout</a>

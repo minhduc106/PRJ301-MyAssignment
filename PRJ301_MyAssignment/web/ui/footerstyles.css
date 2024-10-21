@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 
 footer {
-    background-color: #3498db; /* Background color */
+    background: linear-gradient(90deg, #5a67d8, #48cae4);
     color: white; /* Text color */
     text-align: center;
     padding: 10px 0;

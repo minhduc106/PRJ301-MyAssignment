@@ -16,38 +16,42 @@ import java.util.logging.Logger;
  */
 public class FeatureDBContext extends DBContext<Feature> {
 
-    public ArrayList<String> get(String username){
-        
-        ArrayList<String> features = new ArrayList<>();
-        
-        String url = "SELECT [featureName]\n"
-                + "  FROM [Feature] f\n"
-                + "  INNER JOIN RoleFeature rf on f.featureId = rf.featureId\n"
-                + "  INNER JOIN UserRole us on rf.roleId = us.roleId\n"
-                + "  WHERE us.username = ?";
+    public ArrayList<Feature> get(String username) {
+
+        ArrayList<Feature> features = new ArrayList<>();
+
+        String url = "SELECT f.featureId\n"
+                + "      ,f.featureName\n"
+                + "      ,f.url\n"
+                + "   FROM [Feature] f\n"
+                + "   INNER JOIN RoleFeature rf on f.featureId = rf.featureId\n"
+                + "   INNER JOIN UserRole us on rf.roleId = us.roleId\n"
+                + "   WHERE us.username = ?";
         PreparedStatement stm = null;
-        
+
         try {
             stm = connection.prepareStatement(url);
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {                
-                features.add(rs.getString("featureName"));
+            while (rs.next()) {
+                Feature ft = new Feature();
+                ft.setId(rs.getInt("featureId"));
+                ft.setName(rs.getNString("featureName"));
+                ft.setUrl(rs.getNString("url"));
+                features.add(ft);
             }
         } catch (SQLException ex) {
             Logger.getLogger(FeatureDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        finally{
+        } finally {
             try {
                 stm.close();
                 connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(FeatureDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
+
         return features;
     }
 

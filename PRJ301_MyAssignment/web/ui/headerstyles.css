@@ -1,0 +1,80 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 21, 2024, 4:11:40 PM
+    Author     : Minh Duc
+*/
+
+/* Ensures the header is fixed at the top and spans the full width of the screen */
+header {
+    background: linear-gradient(90deg, #5a67d8, #48cae4);
+    color: white;
+    padding: 15px;
+    position: fixed; /* Ensures the header is fixed to the top */
+    top: 0; /* Position it at the very top */
+    left: 0; /* Align it to the left edge */
+    width: 100%; /* Make it span across the entire width */
+    z-index: 1000; /* Ensure it's on top of other elements */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap; /* Allow items to wrap if they exceed the width */
+}
+
+header nav {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap; /* Allows the menu to move to the next line if too long */
+}
+
+header nav ul {
+    display: flex;
+    flex: 1;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+header nav ul li {
+    margin: 0 10px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: box-shadow 0.3s;
+}
+
+header nav ul li a:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow when hovering */
+}
+
+header .logout {
+    flex-shrink: 0; /* Prevents shrinking and always keeps it on the right */
+    margin-left: auto; /* Ensure it stays on the far right */
+    margin-right: 20px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: bold;
+}
+
+header .logout:hover {
+    background-color: white;
+    color: #2c3e50;
+}
+
+body {
+    padding-top: 70px; /* Adds space so the content doesn't hide under the fixed header */
+}
