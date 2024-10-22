@@ -17,6 +17,11 @@ public class Plan {
     private Date startd;
     private Date endd;
     private Department department;
+    
+    
+    private int totalQuantity;
+    private int deliveredQuantity;
+    private String status;
 
     private ArrayList<PlanCampaign> campaigns = new ArrayList<>();
 
@@ -27,6 +32,7 @@ public class Plan {
     public void setCampaigns(ArrayList<PlanCampaign> campains) {
         this.campaigns = campains;
     }
+   
 
     public int getPlid() {
         return plid;
@@ -59,5 +65,44 @@ public class Plan {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    public int getDeliveredQuantity() {
+        return deliveredQuantity;
+    }
+
+    public void setDeliveredQuantity(int deliveredQuantity) {
+        this.deliveredQuantity = deliveredQuantity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public String calculateStatus(Date currentDate, int totalQuantity, int deliveredQuantity) {
+        if (endd.compareTo(currentDate) < 0 && deliveredQuantity < totalQuantity) {
+            return "Late";
+        } else if (deliveredQuantity >= totalQuantity) {
+            return "Complete";
+        } else {
+            return "On-going";
+        }
+    }
+
+    public void updateStatus(Date currentDate) {
+        this.status = calculateStatus(currentDate, this.totalQuantity, this.deliveredQuantity);
+    }
+    
 
 }
