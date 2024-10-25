@@ -11,7 +11,6 @@ package model;
 public class Product {
     private int pID;
     private String pName;
-    private double pEffort;
 
     public int getpID() {
         return pID;
@@ -29,13 +28,7 @@ public class Product {
         this.pName = pName;
     }
 
-    public double getpEffort() {
-        return pEffort;
-    }
 
-    public void setpEffort(double pEffort) {
-        this.pEffort = pEffort;
-    }
 
     
     

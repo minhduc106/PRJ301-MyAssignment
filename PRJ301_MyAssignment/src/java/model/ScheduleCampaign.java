@@ -16,13 +16,6 @@ public class ScheduleCampaign {
     private String shift;
     private int quantity;
 
-    public ScheduleCampaign(int scid, PlanCampaign planCampaign, Date date, String shift, int quantity) {
-        this.scid = scid;
-        this.planCampaign = planCampaign;
-        this.date = date;
-        this.shift = shift;
-        this.quantity = quantity;
-    }
 
     public int getScid() {
         return scid;

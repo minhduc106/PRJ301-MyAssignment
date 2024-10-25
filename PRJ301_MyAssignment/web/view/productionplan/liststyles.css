@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Keep the table near the header */
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 10px; /* Add a small gap between header and table */
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    max-width: 1200px; /* Further increased max-width for wider table */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    min-width: 140px; /* Ensure minimum width for each column */
+}
+
+th {
+    background-color: #3498db; /* Blue color */
+    color: white;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Status styling */
+.status-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-ongoing .status-dot {
+    background-color: #3498db; /* Blue */
+    animation: blink 1s infinite alternate;
+}
+
+.status-late .status-dot {
+    background-color: #e74c3c; /* Red */
+}
+
+.status-complete .status-dot {
+    background-color: #2ecc71; /* Green */
+}
+
+/* Default text color */
+.status-text {
+    color: #333; /* Black text */
+    font-weight: bold;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+.container {
+    width: 1200px; /* Adjusted container width */
+    margin: 10px auto; /* Center and add gap from header */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+td {
+    vertical-align: middle; /* Canh giữa nội dung theo chiều dọc */
+    text-align: center; /* Canh giữa nội dung theo chiều ngang */
+}
+
+.create-button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #3498db; /* Blue color */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: auto; /* Giữ chiều rộng tự động */
+}
+
+.create-button:hover {
+    background-color: #2980b9; /* Darker blue when hovered */
+}
+

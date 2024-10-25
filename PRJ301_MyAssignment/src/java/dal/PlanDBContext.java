@@ -13,6 +13,29 @@ import model.Plan;
 import model.PlanCampaign;
 
 public class PlanDBContext extends DBContext<Plan> {
+    
+    
+    public Plan getPlanById(int planId) {
+    String sql = "SELECT plid, startd, endd, did FROM [Plan] WHERE plid = ?";
+    try (
+         PreparedStatement ps = connection.prepareStatement(sql)) {
+        
+        ps.setInt(1, planId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            Plan plan = new Plan();
+            plan.setPlid(rs.getInt("plid"));
+            plan.setStartd(rs.getDate("startd"));
+            plan.setEndd(rs.getDate("endd"));
+            // Nếu có thuộc tính khác, thêm vào đây
+            return plan;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // Nếu không tìm thấy Plan, trả về null
+}
+
 
     public ArrayList<Plan> getProductionPlans() {
         ArrayList<Plan> plans = new ArrayList<>();
