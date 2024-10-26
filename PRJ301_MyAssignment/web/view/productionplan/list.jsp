@@ -4,11 +4,11 @@
 <html>
 <head>
     <title>Production Plan List</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/productionplan/liststyles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/productionplan/list.css">
 </head>
 <body>
-    <jsp:include page="../../ui/header.jsp"></jsp:include>
-    <div class="container">
+    <jsp:include page="/ui/header.jsp"></jsp:include>
+    <div class="container" style="margin-top: 10px;">
         <h2 class="title">Production Plan List</h2>
         <table>
             <thead>
@@ -19,11 +19,11 @@
                     <th>Total Quantity</th>
                     <th>Delivered Quantity</th>
                     <th>Status</th>
-                    <th>Schedule Campaign</th> <!-- New header for Schedule Campaign -->
+                    <th>Schedule Campaign</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="plan" items="${requestScope.plans}">
+                <c:forEach var="plan" items="${plans}">
                     <tr>
                         <td>${plan.plid}</td>
                         <td>${plan.startd}</td>
@@ -40,13 +40,13 @@
                             <span class="status-text">${plan.status}</span>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/schedulecampaign/create?plid=${plan.plid}" class="create-button">Create</a>
+                            <a href="${pageContext.request.contextPath}/productionplan/list?action=detail&plid=${plan.plid}" class="detail-button">Detail</a>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
-    <jsp:include page="../../ui/footer.jsp"></jsp:include>
+    <jsp:include page="/ui/footer.jsp"></jsp:include>
 </body>
 </html>

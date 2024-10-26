@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
+import model.Product;
 
 public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
 
@@ -14,16 +15,15 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     @Override
     public ArrayList<ScheduleCampaign> list() {
         ArrayList<ScheduleCampaign> scheduleCampaigns = new ArrayList<>();
-        String sql = "SELECT sc.scid, sc.date, sc.shift, sc.quantity, " +
-                     "pc.canid, pc.quantity, pc.estimatedeffort, " +
-                     "p.pid, p.pname, pl.plid, pl.startd, pl.endd " +
-                     "FROM ScheduleCampaign sc " +
-                     "INNER JOIN PlanCampaign pc ON sc.canid = pc.canid " +
-                     "INNER JOIN Product p ON pc.pid = p.pid " +
-                     "INNER JOIN [Plan] pl ON pc.plid = pl.plid";
+        String sql = "SELECT sc.scid, sc.date, sc.shift, sc.quantity, "
+                + "pc.canid, pc.quantity, pc.estimatedeffort, "
+                + "p.pid, p.pname, pl.plid, pl.startd, pl.endd "
+                + "FROM ScheduleCampaign sc "
+                + "INNER JOIN PlanCampaign pc ON sc.canid = pc.canid "
+                + "INNER JOIN Product p ON pc.pid = p.pid "
+                + "INNER JOIN [Plan] pl ON pc.plid = pl.plid";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql);
-             ResultSet rs = stm.executeQuery()) {
+                PreparedStatement stm = connection.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
                 ScheduleCampaign sc = new ScheduleCampaign();
                 sc.setScid(rs.getInt("scid"));
@@ -45,13 +45,44 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
         return scheduleCampaigns;
     }
 
+    public ArrayList<ScheduleCampaign> getScheduleCampaignsByPlanId(int plid) {
+        ArrayList<ScheduleCampaign> scheduleCampaigns = new ArrayList<>();
+        try {
+            String sql = "SELECT sc.date, sc.shift, sc.quantity, p.pName FROM ScheduleCampaign sc "
+                    + "JOIN PlanCampaign pc ON sc.canid = pc.canid "
+                    + "JOIN Product p ON pc.pid = p.pid "
+                    + "WHERE pc.plid = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, plid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ScheduleCampaign sc = new ScheduleCampaign();
+                sc.setDate(rs.getDate("date"));
+                sc.setShift(rs.getString("shift"));
+                sc.setQuantity(rs.getInt("quantity"));
+
+                // Create and set PlanCampaign and Product
+                PlanCampaign pc = new PlanCampaign();
+                Product p = new Product();
+                p.setpName(rs.getString("pName"));
+                pc.setProduct(p);
+                sc.setPlanCampaign(pc);
+
+                scheduleCampaigns.add(sc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scheduleCampaigns;
+    }
+
     // Lấy danh sách ScheduleCampaign theo PlanCampaign ID
     public ArrayList<ScheduleCampaign> getScheduleByPlanCampaign(int canid) {
         ArrayList<ScheduleCampaign> scheduleCampaigns = new ArrayList<>();
-        String sql = "SELECT scid, date, shift, quantity " +
-                     "FROM ScheduleCampaign WHERE canid = ?";
+        String sql = "SELECT scid, date, shift, quantity "
+                + "FROM ScheduleCampaign WHERE canid = ?";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql)) {
+                PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, canid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -78,7 +109,7 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     public void insert(ScheduleCampaign sc) {
         String sql = "INSERT INTO ScheduleCampaign (canid, date, shift, quantity) VALUES (?, ?, ?, ?)";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql)) {
+                PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, sc.getPlanCampaign().getCanid());
             stm.setDate(2, new Date(sc.getDate().getTime()));
             stm.setString(3, sc.getShift());
@@ -95,7 +126,7 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     public void update(ScheduleCampaign sc) {
         String sql = "UPDATE ScheduleCampaign SET canid = ?, date = ?, shift = ?, quantity = ? WHERE scid = ?";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql)) {
+                PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, sc.getPlanCampaign().getCanid());
             stm.setDate(2, new Date(sc.getDate().getTime()));
             stm.setString(3, sc.getShift());
@@ -113,7 +144,7 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     public void delete(ScheduleCampaign sc) {
         String sql = "DELETE FROM ScheduleCampaign WHERE scid = ?";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql)) {
+                PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, sc.getScid());
             stm.executeUpdate();
         } catch (SQLException e) {
@@ -126,7 +157,7 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     public ScheduleCampaign get(int scid) {
         String sql = "SELECT scid, canid, date, shift, quantity FROM ScheduleCampaign WHERE scid = ?";
         try (
-             PreparedStatement stm = connection.prepareStatement(sql)) {
+                PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, scid);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {

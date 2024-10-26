@@ -1,53 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package controller.productionplan;
 
 import dal.PlanDBContext;
-import java.io.IOException;
-import java.util.List;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import dal.ScheduleCampaignDBContext;
 import model.Plan;
+import model.ScheduleCampaign;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
-/**
- *
- * @author Minh Duc
- */
 public class ProductionPlanListController extends HttpServlet {
-     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        PlanDBContext db = new PlanDBContext();
-        List<Plan> plans = db.getProductionPlans(); // Assumes this method fetches and calculates statuses
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        
+        if (action == null || action.equals("list")) {
+            listPlans(request, response);
+        } else if (action.equals("detail")) {
+            planDetail(request, response);
+        }
+    }
+
+    private void listPlans(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PlanDBContext planDB = new PlanDBContext();
+        ArrayList<Plan> plans = planDB.list();
+
+        // Kiểm tra trạng thái của từng Plan dựa trên các điều kiện của ScheduleCampaign
+        ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
+        for (Plan plan : plans) {
+            ArrayList<ScheduleCampaign> completedCampaigns = scheduleDB.getScheduleCampaignsByPlanId(plan.getPlid());
+            plan.calculateStatus(completedCampaigns); // Cập nhật trạng thái của từng kế hoạch dựa trên các chiến dịch hoàn thành
+        }
+
         request.setAttribute("plans", plans);
-        request.getRequestDispatcher("../view/productionplan/list.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/productionplan/list.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    }
+    private void planDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int plid = Integer.parseInt(request.getParameter("plid"));
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        PlanDBContext planDB = new PlanDBContext();
+        Plan plan = planDB.get(plid);
 
-    @Override
-    public String getServletInfo() {
-        return "Handles listing of production plans";
+        if (plan == null) {
+            response.sendRedirect("list");
+            return;
+        }
+
+        // Lấy tất cả các chiến dịch đã hoàn thành (ScheduleCampaign) liên quan đến Plan này
+        ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
+        ArrayList<ScheduleCampaign> completedCampaigns = scheduleDB.getScheduleCampaignsByPlanId(plid);
+        
+        // Tính toán và cập nhật trạng thái của Plan
+        plan.calculateStatus(completedCampaigns);
+
+        request.setAttribute("plan", plan);
+        request.setAttribute("completedCampaigns", completedCampaigns);
+        request.getRequestDispatcher("/view/productionplan/detail.jsp").forward(request, response);
     }
 }

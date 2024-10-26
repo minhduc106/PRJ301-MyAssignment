@@ -3,10 +3,9 @@ body {
     background-color: #f2f2f2;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Keep the table near the header */
-    min-height: 100vh;
+    align-items: flex-start;
     margin: 0;
-    padding-top: 10px; /* Add a small gap between header and table */
+    padding-top: 10px; /* Cách header 10px */
 }
 
 h2 {
@@ -107,6 +106,23 @@ td {
 }
 
 .create-button:hover {
+    background-color: #2980b9; /* Darker blue when hovered */
+}
+
+.detail-button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #3498db; /* Blue color */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: auto; /* Giữ chiều rộng tự động */
+}
+
+.detail-button:hover {
     background-color: #2980b9; /* Darker blue when hovered */
 }
 

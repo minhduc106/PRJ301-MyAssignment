@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Create Schedule Campaign</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/schedulecampaign/createstyles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/schedulecampaign/create.css">
 </head>
 <body>
     

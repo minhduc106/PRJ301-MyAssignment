@@ -15,6 +15,35 @@ import model.Department;
  * @author sonnt-local
  */
 public class DepartmentDBContext extends DBContext<Department> {
+    
+    
+    public String getDepartmentNameByPlanId(int plid) {
+        String departmentName = null;
+        String sql = "SELECT d.dname " +
+                     "FROM [Department] d " +
+                     "JOIN [Plan] p ON d.did = p.did " +
+                     "WHERE p.plid = ?";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, plid);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                departmentName = rs.getString("dname");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stm != null) stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return departmentName;
+    }
 
     public ArrayList<Department> get(String type) {
         ArrayList<Department> depts = new ArrayList<>();

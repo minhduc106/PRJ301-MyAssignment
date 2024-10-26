@@ -22,7 +22,7 @@ public class ScheduleCampaignCreateController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int plid = Integer.parseInt(request.getParameter("plid"));
         PlanDBContext planDB = new PlanDBContext();
-        Plan plan = planDB.getPlanById(plid);
+        Plan plan = planDB.get(plid);
 
         // Kiểm tra nếu plan là null
         if (plan == null) {
@@ -61,7 +61,7 @@ public class ScheduleCampaignCreateController extends HttpServlet {
 
         // Lấy Plan từ PlanDBContext
         PlanDBContext planDB = new PlanDBContext();
-        Plan plan = planDB.getPlanById(plid);
+        Plan plan = planDB.get(plid);
 
         // Kiểm tra nếu Plan không tồn tại
         if (plan == null) {

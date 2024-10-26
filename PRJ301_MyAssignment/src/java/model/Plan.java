@@ -17,8 +17,7 @@ public class Plan {
     private Date startd;
     private Date endd;
     private Department department;
-    
-    
+
     private int totalQuantity;
     private int deliveredQuantity;
     private String status;
@@ -32,7 +31,6 @@ public class Plan {
     public void setCampaigns(ArrayList<PlanCampaign> campains) {
         this.campaigns = campains;
     }
-   
 
     public int getPlid() {
         return plid;
@@ -89,20 +87,30 @@ public class Plan {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    public String calculateStatus(Date currentDate, int totalQuantity, int deliveredQuantity) {
-        if (endd.compareTo(currentDate) < 0 && deliveredQuantity < totalQuantity) {
-            return "Late";
-        } else if (deliveredQuantity >= totalQuantity) {
-            return "Complete";
+
+    public void calculateStatus(ArrayList<ScheduleCampaign> completedCampaigns) {
+        boolean isComplete = true;
+
+        for (PlanCampaign planCampaign : campaigns) {
+            int requiredQuantity = planCampaign.getQuantity();
+
+            // Kiểm tra và lấy completedQuantity
+            int completedQuantity = completedCampaigns.stream()
+                    .filter(s -> s.getPlanCampaign() != null && s.getPlanCampaign().getCanid() == planCampaign.getCanid())
+                    .mapToInt(ScheduleCampaign::getQuantity)
+                    .sum();
+
+            if (completedQuantity < requiredQuantity) {
+                isComplete = false;
+                break;
+            }
+        }
+
+        if (isComplete) {
+            this.status = "Complete";
         } else {
-            return "On-going";
+            this.status = endd.before(new Date(System.currentTimeMillis())) ? "Late" : "On-going";
         }
     }
-
-    public void updateStatus(Date currentDate) {
-        this.status = calculateStatus(currentDate, this.totalQuantity, this.deliveredQuantity);
-    }
-    
 
 }

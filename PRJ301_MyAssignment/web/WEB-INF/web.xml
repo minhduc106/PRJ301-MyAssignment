@@ -36,6 +36,10 @@
         <servlet-name>ScheduleCampaignCreateController</servlet-name>
         <servlet-class>controller.productionplan.ScheduleCampaignCreateController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ScheduleCampaignListController</servlet-name>
+        <servlet-class>controller.productionplan.ScheduleCampaignListController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EmployeeListController</servlet-name>
         <url-pattern>/employees/list</url-pattern>
@@ -71,5 +75,9 @@
     <servlet-mapping>
         <servlet-name>ScheduleCampaignCreateController</servlet-name>
         <url-pattern>/schedulecampaign/create</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ScheduleCampaignListController</servlet-name>
+        <url-pattern>/schedulecampaign/list</url-pattern>
     </servlet-mapping>
 </web-app>
