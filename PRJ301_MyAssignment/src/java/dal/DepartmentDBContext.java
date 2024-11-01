@@ -15,14 +15,13 @@ import model.Department;
  * @author sonnt-local
  */
 public class DepartmentDBContext extends DBContext<Department> {
-    
-    
+
     public String getDepartmentNameByPlanId(int plid) {
         String departmentName = null;
-        String sql = "SELECT d.dname " +
-                     "FROM [Department] d " +
-                     "JOIN [Plan] p ON d.did = p.did " +
-                     "WHERE p.plid = ?";
+        String sql = "SELECT d.dname "
+                + "FROM [Department] d "
+                + "JOIN [Plan] p ON d.did = p.did "
+                + "WHERE p.plid = ?";
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
@@ -36,8 +35,12 @@ public class DepartmentDBContext extends DBContext<Department> {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stm != null) stm.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -101,7 +104,38 @@ public class DepartmentDBContext extends DBContext<Department> {
 
     @Override
     public Department get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Department department = null;
+        String sql = "SELECT did, dname, dtype FROM Department WHERE did = ?";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+
+            if (rs.next()) {
+                department = new Department();
+                department.setDid(rs.getInt("did"));
+                department.setDname(rs.getString("dname"));
+                department.setDtype(rs.getString("dtype"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return department;
     }
 
 }

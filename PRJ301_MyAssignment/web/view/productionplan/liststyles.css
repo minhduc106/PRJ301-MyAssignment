@@ -126,3 +126,20 @@ td {
     background-color: #2980b9; /* Darker blue when hovered */
 }
 
+.detail-button-plan {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #3498db; /* Blue color */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: auto; /* Keep automatic width */
+    margin-left: 5px; /* Add some space between buttons */
+}
+
+.detail-button-plan:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}

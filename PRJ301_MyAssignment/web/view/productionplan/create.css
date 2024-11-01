@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin: 100px auto;
+    margin: 50px 0px;;
 }
 
 form {
@@ -86,3 +86,4 @@ th {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+    

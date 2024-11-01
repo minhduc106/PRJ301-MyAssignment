@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Schedule Campaign Details</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/schedulecampaign/list.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/schedulecampaign/liststyles.css">
 </head>
 <body>
     <jsp:include page="/ui/header.jsp" />

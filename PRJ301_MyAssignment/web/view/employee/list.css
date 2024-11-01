@@ -1,0 +1,84 @@
+/* Đặt nền cho trang */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding-top: 10px; /* Cách header 10px */
+    padding-bottom: 10px;
+}
+
+/* Tiêu đề */
+h2, h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Container của bảng */
+.container {
+    width: 1200px; /* Độ rộng container */
+    margin: 10px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Bảng */
+table {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center; /* Canh giữa nội dung theo chiều ngang */
+    border: 1px solid #ddd;
+    min-width: 140px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* CSS cho cột "Hourly Rate" */
+.rate {
+    font-weight: bold;
+    color: #3498db;
+}
+
+/* Phong cách nút */
+.create-button, .detail-button, .detail-button-plan {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: auto;
+}
+
+.create-button:hover, .detail-button:hover, .detail-button-plan:hover {
+    background-color: #2980b9;
+}

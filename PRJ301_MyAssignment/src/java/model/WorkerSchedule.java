@@ -15,12 +15,6 @@ public class WorkerSchedule {
     private Employee employee;
     private int quantity;
 
-    public WorkerSchedule(int wsid, ScheduleCampaign scheduleCampaign, Employee employee, int quantity) {
-        this.wsid = wsid;
-        this.scheduleCampaign = scheduleCampaign;
-        this.employee = employee;
-        this.quantity = quantity;
-    }
 
     public int getWsid() {
         return wsid;

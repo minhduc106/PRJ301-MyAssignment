@@ -10,8 +10,32 @@ import java.util.ArrayList;
 import model.Product;
 
 public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
-
-    // Lấy danh sách tất cả ScheduleCampaign từ database
+    
+    public ScheduleCampaign getScheduleByDate(Date date) {
+        ScheduleCampaign scheduleCampaign = null;
+        String sql = "SELECT scid, shift FROM ScheduleCampaign WHERE date = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, date);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                scheduleCampaign = new ScheduleCampaign();
+                scheduleCampaign.setScid(rs.getInt("scid"));
+                scheduleCampaign.setShift(rs.getString("shift"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return scheduleCampaign;
+    }
+    
+    
     @Override
     public ArrayList<ScheduleCampaign> list() {
         ArrayList<ScheduleCampaign> scheduleCampaigns = new ArrayList<>();
@@ -46,35 +70,40 @@ public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
     }
 
     public ArrayList<ScheduleCampaign> getScheduleCampaignsByPlanId(int plid) {
-        ArrayList<ScheduleCampaign> scheduleCampaigns = new ArrayList<>();
-        try {
-            String sql = "SELECT sc.date, sc.shift, sc.quantity, p.pName FROM ScheduleCampaign sc "
-                    + "JOIN PlanCampaign pc ON sc.canid = pc.canid "
-                    + "JOIN Product p ON pc.pid = p.pid "
-                    + "WHERE pc.plid = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, plid);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ScheduleCampaign sc = new ScheduleCampaign();
-                sc.setDate(rs.getDate("date"));
-                sc.setShift(rs.getString("shift"));
-                sc.setQuantity(rs.getInt("quantity"));
+    ArrayList<ScheduleCampaign> campaigns = new ArrayList<>();
+    String sql = "SELECT sc.scid, sc.date, sc.shift, sc.quantity, "
+               + "pc.canid, p.pid, p.pname "
+               + "FROM ScheduleCampaign sc "
+               + "JOIN PlanCampaign pc ON sc.canid = pc.canid "
+               + "JOIN Product p ON pc.pid = p.pid "
+               + "WHERE pc.plid = ?";
+    try (PreparedStatement stm = connection.prepareStatement(sql)) {
+        stm.setInt(1, plid);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            ScheduleCampaign campaign = new ScheduleCampaign();
+            campaign.setScid(rs.getInt("scid"));
+            campaign.setDate(rs.getDate("date"));
+            campaign.setShift(rs.getString("shift"));
+            campaign.setQuantity(rs.getInt("quantity"));
 
-                // Create and set PlanCampaign and Product
-                PlanCampaign pc = new PlanCampaign();
-                Product p = new Product();
-                p.setpName(rs.getString("pName"));
-                pc.setProduct(p);
-                sc.setPlanCampaign(pc);
+            PlanCampaign planCampaign = new PlanCampaign();
+            planCampaign.setCanid(rs.getInt("canid"));
+            
+            Product product = new Product();
+            product.setpID(rs.getInt("pid"));
+            product.setpName(rs.getString("pname"));
+            planCampaign.setProduct(product);
 
-                scheduleCampaigns.add(sc);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            campaign.setPlanCampaign(planCampaign);
+            campaigns.add(campaign);
         }
-        return scheduleCampaigns;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return campaigns;
+}
+
 
     // Lấy danh sách ScheduleCampaign theo PlanCampaign ID
     public ArrayList<ScheduleCampaign> getScheduleByPlanCampaign(int canid) {

@@ -40,10 +40,18 @@
         <servlet-name>ScheduleCampaignListController</servlet-name>
         <servlet-class>controller.productionplan.ScheduleCampaignListController</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>EmployeeListController</servlet-name>
-        <url-pattern>/employees/list</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>ProductionPlanDetailController</servlet-name>
+        <servlet-class>controller.productionplan.ProductionPlanDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PersonalDevelopmentDetailController</servlet-name>
+        <servlet-class>controller.personaldevelopment.PersonalDevelopmentDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttendanceDetailController</servlet-name>
+        <servlet-class>controller.attendance.AttendanceDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -79,5 +87,21 @@
     <servlet-mapping>
         <servlet-name>ScheduleCampaignListController</servlet-name>
         <url-pattern>/schedulecampaign/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductionPlanDetailController</servlet-name>
+        <url-pattern>/productionplan/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeListController</servlet-name>
+        <url-pattern>/employee/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PersonalDevelopmentDetailController</servlet-name>
+        <url-pattern>/personaldevelopment/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceDetailController</servlet-name>
+        <url-pattern>/attendance/detail</url-pattern>
     </servlet-mapping>
 </web-app>

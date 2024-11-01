@@ -11,7 +11,7 @@
     <nav>
         <ul>
             <c:forEach items="${sessionScope.features}" var="feature">
-                <li><a href="${feature.url}">${feature.name}</a></li>
+                <li><a href="${pageContext.request.contextPath}${feature.url}">${feature.name}</a></li>
             </c:forEach>
         </ul>
         <a href="${pageContext.request.contextPath}/logout" class="logout">Logout</a>

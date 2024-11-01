@@ -14,13 +14,6 @@ public class Attendance {
     private int quantity;
     private float alpha;
 
-    public Attendance(int aid, WorkerSchedule workerSchedule, int quantity, float alpha) {
-        this.aid = aid;
-        this.workerSchedule = workerSchedule;
-        this.quantity = quantity;
-        this.alpha = alpha;
-    }
-
     public int getAid() {
         return aid;
     }

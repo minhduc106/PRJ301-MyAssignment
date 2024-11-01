@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
-
 /**
  *
  * @author sonnt-local
  */
 public class ProductDBContext extends DBContext<Product> {
-
+    
     @Override
     public void insert(Product model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlanDBContext extends DBContext<Plan> {
+    
+    
 
     @Override
     public void insert(Plan model) {

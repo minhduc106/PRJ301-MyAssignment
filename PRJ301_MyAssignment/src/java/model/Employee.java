@@ -18,13 +18,6 @@ public class Employee {
     private Department department;
     private User createdby;
 
-    public Employee(String eid, String ename, String salaryLevel, Department department, User createdby) {
-        this.eid = eid;
-        this.ename = ename;
-        this.salaryLevel = salaryLevel;
-        this.department = department;
-        this.createdby = createdby;
-    }
 
     public User getCreatedby() {
         return createdby;
@@ -32,10 +25,6 @@ public class Employee {
 
     public void setCreatedby(User createdby) {
         this.createdby = createdby;
-    }
-
-    public Employee() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getEid() {

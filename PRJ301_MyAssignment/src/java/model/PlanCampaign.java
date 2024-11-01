@@ -15,6 +15,7 @@ public class PlanCampaign {
     private Product product;
     private int quantity;
     private float estimatedeffort;
+    private int madeQuantity;
 
     public float getEstimatedeffort() {
         return estimatedeffort;
@@ -55,6 +56,13 @@ public class PlanCampaign {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+
+    public int getMadeQuantity() {
+        return madeQuantity;
+    }
+
+    public void setMadeQuantity(int madeQuantity) {
+        this.madeQuantity = madeQuantity;
+    }
 
 }
