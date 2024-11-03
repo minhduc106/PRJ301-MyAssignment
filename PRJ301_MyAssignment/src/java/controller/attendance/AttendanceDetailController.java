@@ -4,38 +4,53 @@ import controller.accescontrol.BaseRBACController;
 import dal.AttendanceDBContext;
 import dal.DepartmentDBContext;
 import dal.EmployeeDBContext;
+import dal.ScheduleCampaignDBContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Attendance;
+import model.Department;
+import model.ScheduleCampaign;
+import model.accesscontrol.User;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import model.Attendance;
-import model.Department;
-import model.accesscontrol.User;
 
 public class AttendanceDetailController extends BaseRBACController {
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        // Lấy date và shift từ tham số yêu cầu
-        Date date = Date.valueOf(req.getParameter("date")); // định dạng "yyyy-MM-dd"
-        String shift = req.getParameter("shift");
+        // Lấy ngày từ tham số yêu cầu
+        String dateParam = req.getParameter("date");
+        Date date = null;
+        if (dateParam != null && !dateParam.isEmpty()) {
+            date = Date.valueOf(dateParam);
+        }
+        req.setAttribute("date", date);
 
+        // Lấy ID phòng ban từ tài khoản người dùng đã đăng nhập
         EmployeeDBContext edb = new EmployeeDBContext();
         int did = edb.getDepartmentIdByUsername(loggeduser.getUsername());
+
+        // Lấy thông tin phòng ban
         DepartmentDBContext ddb = new DepartmentDBContext();
         Department dp = ddb.get(did);
-
-        // Lấy dữ liệu Attendance
-        AttendanceDBContext attendanceDB = new AttendanceDBContext();
-        ArrayList<Attendance> attendances = attendanceDB.getAttendanceByDateAndShiftAndDid(date, shift, did);
-
-        // Đặt các thuộc tính cho JSP
         req.setAttribute("dp", dp);
-        req.setAttribute("date", date);
-        req.setAttribute("shift", shift);
-        req.setAttribute("attendances", attendances);
+
+        // Lấy danh sách các ca làm việc dựa trên ngày đã chọn
+        ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
+        ArrayList<ScheduleCampaign> shifts = scheduleDB.getShiftsByDate(date);
+        req.setAttribute("shifts", shifts);
+
+        // Lấy dữ liệu điểm danh theo ngày và ca làm việc
+        String shift = req.getParameter("shift");
+        if (shift != null && date != null) {
+            AttendanceDBContext attendanceDB = new AttendanceDBContext();
+            ArrayList<Attendance> attendances = attendanceDB.getAttendanceByDateAndShiftAndDid(date, shift, did);
+            req.setAttribute("attendances", attendances);
+            req.setAttribute("shift", shift);
+        }
 
         // Chuyển hướng tới JSP để hiển thị
         req.getRequestDispatcher("/view/attendance/detail.jsp").forward(req, resp);

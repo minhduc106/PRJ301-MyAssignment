@@ -7,10 +7,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import model.Plan;
 import model.Product;
 
 public class ScheduleCampaignDBContext extends DBContext<ScheduleCampaign> {
+
+    public ArrayList<ScheduleCampaign> getShiftsByDate(Date date) {
+        ArrayList<ScheduleCampaign> shifts = new ArrayList<>();
+        String sql = "SELECT shift, scid FROM ScheduleCampaign WHERE date = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, date);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                ScheduleCampaign sc = new ScheduleCampaign();
+                sc.setShift(rs.getString("shift"));
+                sc.setScid(rs.getInt("scid")); // Optional
+                shifts.add(sc);
+            }
+
+            // Filter for unique shifts
+            shifts = new ArrayList<>(shifts.stream()
+                    .collect(Collectors.toMap(ScheduleCampaign::getShift, sc -> sc, (sc1, sc2) -> sc1))
+                    .values());
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return shifts;
+    }
 
     public int getScheduleCampaignId(int planId, String shift, int productId, Date date) {
         String sql = "SELECT sc.scid FROM ScheduleCampaign sc "

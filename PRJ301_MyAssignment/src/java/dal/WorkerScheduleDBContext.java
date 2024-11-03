@@ -2,6 +2,9 @@ package dal;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 import model.Employee;
 import model.PlanCampaign;
 import model.Product;
@@ -9,6 +12,67 @@ import model.ScheduleCampaign;
 import model.WorkerSchedule;
 
 public class WorkerScheduleDBContext extends DBContext<WorkerSchedule> {
+
+    public WorkerSchedule getWorkerSchedule(String eid, int productId, Date date, String shift) {
+        String sql = "SELECT * FROM WorkerSchedule ws "
+                + "JOIN ScheduleCampaign sc ON ws.scid = sc.scid "
+                + "JOIN PlanCampaign pc ON sc.canid = pc.canid "
+                + "WHERE ws.eid = ? AND pc.pid = ? AND sc.date = ? AND sc.shift = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, eid);
+            stm.setInt(2, productId);
+            stm.setDate(3, date);
+            stm.setString(4, shift);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                WorkerSchedule ws = new WorkerSchedule();
+                ws.setWsid(rs.getInt("wsid"));
+                ws.setQuantity(rs.getInt("quantity"));
+                // Set other properties if necessary
+                return ws;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // Return null if not found or an error occurs
+    }
+
+    public Map<Employee, ArrayList<Product>> getDistinctEmployeesAndProductsByDateAndShift(Date date, String shift) {
+        Map<Employee, ArrayList<Product>> employeeProductMap = new TreeMap<>(Comparator.comparing(Employee::getEid));
+        String sql = "SELECT DISTINCT ws.eid, e.ename, p.pID, p.pName FROM WorkerSchedule ws "
+                + "JOIN Employee e ON ws.eid = e.eid "
+                + "JOIN ScheduleCampaign sc ON ws.scid = sc.scid "
+                + "JOIN PlanCampaign pc ON sc.canid = pc.canid "
+                + "JOIN Product p ON pc.pid = p.pID "
+                + "WHERE sc.date = ? AND sc.shift = ?";
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, date);
+            stm.setString(2, shift);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                String eid = rs.getString("eid");
+                String ename = rs.getString("ename");
+                int pID = rs.getInt("pID");
+                String pName = rs.getString("pName");
+
+                Employee employee = new Employee();
+                employee.setEid(eid);
+                employee.setEname(ename);
+
+                Product product = new Product();
+                product.setpID(pID);
+                product.setpName(pName);
+
+                employeeProductMap.computeIfAbsent(employee, k -> new ArrayList<>()).add(product);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return employeeProductMap;
+    }
 
     public ArrayList<WorkerSchedule> getWorkerSchedulesByDate(Date date, int did) {
         ArrayList<WorkerSchedule> workerSchedules = new ArrayList<>();

@@ -10,6 +10,24 @@ import model.ScheduleCampaign;
 import model.WorkerSchedule;
 
 public class AttendanceDBContext extends DBContext<Attendance> {
+    
+    
+    
+
+    public boolean add(Attendance attendance) {
+        String sql = "INSERT INTO Attendance (wsid, quantity, alpha) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, attendance.getWorkerSchedule().getWsid()); // Correctly refer to the wsid in WorkerSchedule
+            stm.setInt(2, attendance.getQuantity());
+            stm.setDouble(3, attendance.getAlpha());
+            int rowsInserted = stm.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
     public ArrayList<Attendance> getAttendanceByDateAndShiftAndDid(Date date, String shift, int did) {
         ArrayList<Attendance> attendances = new ArrayList<>();
@@ -30,10 +48,11 @@ public class AttendanceDBContext extends DBContext<Attendance> {
                 + "JOIN Employee e ON ws.eid = e.eid\n"
                 + "JOIN PlanCampaign pc ON sc.canid = pc.canid\n"
                 + "JOIN Product p ON pc.pid = p.pid\n"
-                + "WHERE sc.date = ? and sc.shift = ? and e.did = ?";
+                + "WHERE sc.date = ? and sc.shift = ? and e.did = ?\n"
+                + "ORDER BY e.eid";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setDate(1, date);   
+            stm.setDate(1, date);
             stm.setString(2, shift);
             stm.setInt(3, did);
             ResultSet rs = stm.executeQuery();
@@ -89,11 +108,6 @@ public class AttendanceDBContext extends DBContext<Attendance> {
     }
 
     @Override
-    public void insert(Attendance model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void update(Attendance model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -110,6 +124,11 @@ public class AttendanceDBContext extends DBContext<Attendance> {
 
     @Override
     public Attendance get(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void insert(Attendance model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
