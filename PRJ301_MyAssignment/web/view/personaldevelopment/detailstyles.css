@@ -59,4 +59,19 @@ tr:hover {
     background-color: #e0e0e0;
 }
 
+.btn-create {
+    margin-top: 5px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #2980b9;
+}
 

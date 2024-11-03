@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import model.Product;
 import model.ScheduleCampaign;
 import model.WorkerSchedule;
 import model.accesscontrol.User;
@@ -20,30 +19,28 @@ public class PersonalDevelopmentDetailController extends BaseRBACController {
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        // Lấy date từ tham số yêu cầu
-        Date date = Date.valueOf(req.getParameter("date")); // date phải là "yyyy-MM-dd"
+        Date date = Date.valueOf(req.getParameter("date"));
 
-        // Lấy ScheduleCampaign dựa trên date để lấy thông tin shift
         ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
         ScheduleCampaign scheduleCampaign = scheduleDB.getScheduleByDate(date);
-        String shift = scheduleCampaign.getShift(); // Lấy ca làm việc từ ScheduleCampaign
-        EmployeeDBContext edb = new EmployeeDBContext();
-        // Lấy danh sách WorkerSchedule (dựa vào date)
-        WorkerScheduleDBContext workerScheduleDB = new WorkerScheduleDBContext();
-        int did = edb.getDepartmentIdByUsername(loggeduser.getUsername());
-        ArrayList<WorkerSchedule> workerSchedules = workerScheduleDB.getWorkerSchedulesByDate(date,did);
+        if (scheduleCampaign == null) {
+            req.setAttribute("message", "No personnel deployment plan exists for " + date + ".");
+        } else {
+            String shift = scheduleCampaign.getShift();
+            EmployeeDBContext edb = new EmployeeDBContext();
+            WorkerScheduleDBContext workerScheduleDB = new WorkerScheduleDBContext();
+            int did = edb.getDepartmentIdByUsername(loggeduser.getUsername());
+            ArrayList<WorkerSchedule> workerSchedules = workerScheduleDB.getWorkerSchedulesByDate(date, did);
 
-        // Đặt các thuộc tính cho JSP
-        req.setAttribute("date", date);
-        req.setAttribute("shift", shift); // Truyền shift cho JSP
-        req.setAttribute("workerSchedules", workerSchedules);
+            req.setAttribute("date", date);
+            req.setAttribute("shift", shift);
+            req.setAttribute("workerSchedules", workerSchedules);
+        }
 
-        // Chuyển hướng tới JSP để hiển thị
         req.getRequestDispatcher("/view/personaldevelopment/detail.jsp").forward(req, resp);
     }
 
     @Override
     protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        // Không cần xử lý POST cho chức năng này
     }
 }

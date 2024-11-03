@@ -17,6 +17,33 @@ import model.Product;
  */
 public class ProductDBContext extends DBContext<Product> {
     
+    public ArrayList<Product> getProductsForPlan(int planId) {
+        ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.pid, p.pname FROM Product p "
+                   + "JOIN PlanCampaign pc ON p.pid = pc.pid "
+                   + "WHERE pc.plid = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setpID(rs.getInt("pid"));
+                product.setpName(rs.getString("pname"));
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return products;
+    }
+    
     @Override
     public void insert(Product model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

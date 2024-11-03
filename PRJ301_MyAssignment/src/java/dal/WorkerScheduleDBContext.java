@@ -30,29 +30,24 @@ public class WorkerScheduleDBContext extends DBContext<WorkerSchedule> {
             while (rs.next()) {
                 WorkerSchedule ws = new WorkerSchedule();
 
-                // Thiết lập thông tin WorkerSchedule
                 ws.setWsid(rs.getInt("wsid"));
                 ws.setQuantity(rs.getInt("quantity"));
 
-                // Thiết lập thông tin ScheduleCampaign
                 ScheduleCampaign scheduleCampaign = new ScheduleCampaign();
                 scheduleCampaign.setScid(rs.getInt("scid"));
                 scheduleCampaign.setDate(rs.getDate("date"));
                 scheduleCampaign.setShift(rs.getString("shift"));
                 ws.setScheduleCampaign(scheduleCampaign);
 
-                // Thiết lập thông tin Employee
                 Employee employee = new Employee();
                 employee.setEid(rs.getString("eid"));
                 employee.setEname(rs.getString("ename"));
                 ws.setEmployee(employee);
 
-                // Thiết lập thông tin Product
                 Product product = new Product();
                 product.setpID(rs.getInt("pid"));
                 product.setpName(rs.getString("pname"));
 
-                // Thiết lập Product cho PlanCampaign của ScheduleCampaign trong WorkerSchedule
                 PlanCampaign planCampaign = new PlanCampaign();
                 planCampaign.setProduct(product);
                 scheduleCampaign.setPlanCampaign(planCampaign);
@@ -72,8 +67,23 @@ public class WorkerScheduleDBContext extends DBContext<WorkerSchedule> {
     }
 
     @Override
-    public void insert(WorkerSchedule model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(WorkerSchedule ws) {
+        String sql = "INSERT INTO WorkerSchedule (scid, eid, quantity) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, ws.getScheduleCampaign().getScid());
+            stm.setString(2, ws.getEmployee().getEid());
+            stm.setInt(3, ws.getQuantity());
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override

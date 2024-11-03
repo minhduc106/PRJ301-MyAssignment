@@ -11,7 +11,52 @@ import java.util.logging.Logger;
 
 public class PlanDBContext extends DBContext<Plan> {
     
-    
+    public ArrayList<Plan> getPlansWithinDate(Date date, int departmentId) {
+        ArrayList<Plan> plans = new ArrayList<>();
+        String sql = "SELECT plid, startd, endd FROM [Plan] "
+                   + "WHERE did = ? AND startd <= ? AND endd >= ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, departmentId);
+            stm.setDate(2, date);
+            stm.setDate(3, date);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Plan plan = new Plan();
+                plan.setPlid(rs.getInt("plid"));
+                plan.setStartd(rs.getDate("startd"));
+                plan.setEndd(rs.getDate("endd"));
+                plans.add(plan);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return plans;
+    }
+
+    public ArrayList<String> getAvailableMonthsAndYears() {
+        ArrayList<String> monthsYears = new ArrayList<>();
+        String sql = "SELECT DISTINCT FORMAT(startd, 'yyyy-MM') AS monthYear FROM [Plan] "
+                + "UNION SELECT DISTINCT FORMAT(endd, 'yyyy-MM') FROM [Plan]";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                String monthYear = rs.getString("monthYear");
+                System.out.println("Found monthYear: " + monthYear); // Debug output
+                monthsYears.add(monthYear);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return monthsYears;
+    }
 
     @Override
     public void insert(Plan model) {
@@ -170,35 +215,35 @@ public class PlanDBContext extends DBContext<Plan> {
     }
 
     private ArrayList<PlanCampaign> getCampaignsByPlanId(int plid) {
-    ArrayList<PlanCampaign> campaigns = new ArrayList<>();
-    try {
-        String sql = "SELECT canid, pid, quantity, estimatedeffort "
-                   + "FROM [PlanCampaign] WHERE plid = ?";
-        PreparedStatement stm = connection.prepareStatement(sql);
-        stm.setInt(1, plid);
-        ResultSet rs = stm.executeQuery();
+        ArrayList<PlanCampaign> campaigns = new ArrayList<>();
+        try {
+            String sql = "SELECT canid, pid, quantity, estimatedeffort "
+                    + "FROM [PlanCampaign] WHERE plid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, plid);
+            ResultSet rs = stm.executeQuery();
 
-        while (rs.next()) {
-            PlanCampaign campaign = new PlanCampaign();
-            campaign.setCanid(rs.getInt("canid"));
-            campaign.setQuantity(rs.getInt("quantity"));
-            campaign.setEstimatedeffort(rs.getFloat("estimatedeffort"));
+            while (rs.next()) {
+                PlanCampaign campaign = new PlanCampaign();
+                campaign.setCanid(rs.getInt("canid"));
+                campaign.setQuantity(rs.getInt("quantity"));
+                campaign.setEstimatedeffort(rs.getFloat("estimatedeffort"));
 
-            Product product = new Product();
-            product.setpID(rs.getInt("pid"));
-            campaign.setProduct(product);
+                Product product = new Product();
+                product.setpID(rs.getInt("pid"));
+                campaign.setProduct(product);
 
-            // Đặt Plan cho mỗi PlanCampaign
-            Plan plan = new Plan();
-            plan.setPlid(plid);
-            campaign.setPlan(plan);
+                // Đặt Plan cho mỗi PlanCampaign
+                Plan plan = new Plan();
+                plan.setPlid(plid);
+                campaign.setPlan(plan);
 
-            campaigns.add(campaign);
+                campaigns.add(campaign);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        return campaigns;
     }
-    return campaigns;
-}
 
 }
