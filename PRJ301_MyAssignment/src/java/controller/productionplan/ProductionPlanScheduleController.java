@@ -1,18 +1,19 @@
 package controller.productionplan;
 
+import controller.accescontrol.BaseRBACController;
 import dal.PlanDBContext;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import model.accesscontrol.User;
 
-public class ProductionPlanScheduleController extends HttpServlet {
+public class ProductionPlanScheduleController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
         PlanDBContext dbContext = new PlanDBContext();
         ArrayList<String> monthsYears = dbContext.getAvailableMonthsAndYears();
 
@@ -37,5 +38,10 @@ public class ProductionPlanScheduleController extends HttpServlet {
         req.setAttribute("startDayOfWeek", startDayOfWeek);
 
         req.getRequestDispatcher("/view/productionplan/schedule.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

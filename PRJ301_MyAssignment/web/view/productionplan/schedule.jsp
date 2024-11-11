@@ -16,7 +16,9 @@
     </script>
 </head>
 <body>
+    <jsp:include page="../../ui/header.jsp"></jsp:include>
     <div class="container">
+        
         <h2>Schedule Production Plan</h2>
         
         <!-- Month/Year Selection -->
@@ -65,5 +67,6 @@
             </c:forEach>
         </table>
     </div>
+            <jsp:include page="../../ui/footer.jsp"></jsp:include>
 </body>
 </html>

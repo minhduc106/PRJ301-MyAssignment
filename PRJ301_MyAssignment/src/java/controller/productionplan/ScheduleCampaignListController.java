@@ -1,5 +1,6 @@
 package controller.productionplan;
 
+import controller.accescontrol.BaseRBACController;
 import dal.DepartmentDBContext;
 import dal.ScheduleCampaignDBContext;
 import jakarta.servlet.*;
@@ -7,10 +8,12 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import model.ScheduleCampaign;
+import model.accesscontrol.User;
 
-public class ScheduleCampaignListController extends HttpServlet {
+public class ScheduleCampaignListController extends BaseRBACController {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         int plid = Integer.parseInt(request.getParameter("plid"));
         ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
         ArrayList<ScheduleCampaign> scheduleCampaigns = scheduleDB.getScheduleCampaignsByPlanId(plid);
@@ -21,5 +24,10 @@ public class ScheduleCampaignListController extends HttpServlet {
         request.setAttribute("scheduleCampaigns", scheduleCampaigns);
         request.setAttribute("plid", plid);
         request.getRequestDispatcher("/view/schedulecampaign/list.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

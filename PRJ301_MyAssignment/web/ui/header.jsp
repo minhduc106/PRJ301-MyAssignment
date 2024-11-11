@@ -11,8 +11,11 @@
     <nav>
         <ul>
             <c:forEach items="${sessionScope.features}" var="feature">
-                <li><a href="${pageContext.request.contextPath}${feature.url}">${feature.name}</a></li>
-            </c:forEach>
+                <c:if test="${feature.name == 'Production Plan Schedule' || feature.name == 'Detail Attendance' || feature.name == 'Employee List Workshop' || feature.name == 'Production Plan Create' || feature.name == 'Production Plan List' || feature.name == 'Home'}" >
+                    <li><a href="${pageContext.request.contextPath}${feature.url}">${feature.name}</a></li>
+                    </c:if>
+                </c:forEach>
+
         </ul>
         <a href="${pageContext.request.contextPath}/logout" class="logout">Logout</a>
     </nav>

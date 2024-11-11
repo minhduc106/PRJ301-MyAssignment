@@ -6,9 +6,10 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/attendance/detailstyles.css">
     </head>
     <body>
-        <div class="container">
-            <h2>Select Date and Shift for Attendance Detail</h2>
-            <form action="${pageContext.request.contextPath}/attendance/detail" method="get">
+        <jsp:include page="../../ui/header.jsp"></jsp:include>
+            <div class="container">
+                <h2>Select Date and Shift for Attendance Detail</h2>
+                <form action="${pageContext.request.contextPath}/attendance/detail" method="get">
                 <div class="form-group">
                     <label for="dateSelect">Select Date:</label>
                     <input type="date" id="dateSelect" name="date" value="${param.date}" required onchange="this.form.submit()">
@@ -64,17 +65,18 @@
             <div class="form-group" style="text-align: center; margin-top: 20px;">
                 <button type="button" class="btn-create" onclick="redirectToCreate()">Create Attendance</button>
             </div>
+            <jsp:include page="../../ui/footer.jsp"></jsp:include>
 
-            <script>
-                function redirectToCreate() {
-                    var date = document.getElementById('dateSelect').value;
-                    var shift = document.getElementById('shiftSelect').value;
-                    if (date && shift) {
-                        window.location.href = '${pageContext.request.contextPath}/attendance/create?date=' + date + '&shift=' + shift;
-                    } else {
-                        alert('Please select both a date and a shift.');
+                <script>
+                    function redirectToCreate() {
+                        var date = document.getElementById('dateSelect').value;
+                        var shift = document.getElementById('shiftSelect').value;
+                        if (date && shift) {
+                            window.location.href = '${pageContext.request.contextPath}/attendance/create?date=' + date + '&shift=' + shift;
+                        } else {
+                            alert('Please select both a date and a shift.');
+                        }
                     }
-                }
             </script>
 
         </div>

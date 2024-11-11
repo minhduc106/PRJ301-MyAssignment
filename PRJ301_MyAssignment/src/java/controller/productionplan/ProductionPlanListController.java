@@ -1,5 +1,6 @@
 package controller.productionplan;
 
+import controller.accescontrol.BaseRBACController;
 import dal.PlanDBContext;
 import dal.ScheduleCampaignDBContext;
 import model.Plan;
@@ -8,11 +9,12 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import model.accesscontrol.User;
 
-public class ProductionPlanListController extends HttpServlet {
+public class ProductionPlanListController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         PlanDBContext planDB = new PlanDBContext();
         ArrayList<Plan> plans = planDB.list();
 
@@ -28,7 +30,7 @@ public class ProductionPlanListController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         // Currently, no operations are defined for POST in this controller.
     }
 }

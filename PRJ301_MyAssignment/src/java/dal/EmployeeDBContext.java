@@ -9,6 +9,25 @@ import model.accesscontrol.User;
 
 public class EmployeeDBContext extends DBContext<Employee> {
 
+    public ArrayList<Employee> getEmployeesByDepartmentId(int departmentId) {
+        ArrayList<Employee> employees = new ArrayList<>();
+        String sql = "SELECT eid, ename FROM Employee WHERE did = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, departmentId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Employee emp = new Employee();
+                emp.setEid(rs.getString("eid"));
+                emp.setEname(rs.getString("ename"));
+                employees.add(emp);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return employees;
+    }
+
     // Method to get department ID based on username
     public int getDepartmentIdByUsername(String username) {
         int did = -1; // Default value if not found

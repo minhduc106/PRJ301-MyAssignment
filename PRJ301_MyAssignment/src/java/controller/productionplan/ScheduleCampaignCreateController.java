@@ -1,5 +1,6 @@
 package controller.productionplan;
 
+import controller.accescontrol.BaseRBACController;
 import dal.PlanDBContext;
 import dal.ProductDBContext;
 import dal.ScheduleCampaignDBContext;
@@ -14,12 +15,12 @@ import model.Plan;
 import model.Product;
 import model.ScheduleCampaign;
 import model.PlanCampaign;
-import java.text.SimpleDateFormat;
+import model.accesscontrol.User;
 
-public class ScheduleCampaignCreateController extends HttpServlet {
+public class ScheduleCampaignCreateController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         int plid = Integer.parseInt(request.getParameter("plid"));
         PlanDBContext planDB = new PlanDBContext();
         Plan plan = planDB.get(plid);
@@ -38,8 +39,7 @@ public class ScheduleCampaignCreateController extends HttpServlet {
         Date startDate = plan.getStartd();
         Date endDate = plan.getEndd();
         
-
-// Cập nhật format date trước khi truyền vào request
+        // Cập nhật format date trước khi truyền vào request
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<String> formattedDates = new ArrayList<>();
 
@@ -55,7 +55,8 @@ public class ScheduleCampaignCreateController extends HttpServlet {
         request.getRequestDispatcher("/view/schedulecampaign/createsc.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
         int plid = Integer.parseInt(request.getParameter("plid"));
 
@@ -117,5 +118,4 @@ public class ScheduleCampaignCreateController extends HttpServlet {
         // Điều hướng lại danh sách hoặc trang xác nhận
         response.sendRedirect("../productionplan/list");
     }
-
 }

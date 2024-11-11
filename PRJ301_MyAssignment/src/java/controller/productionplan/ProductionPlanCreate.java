@@ -5,13 +5,12 @@ package controller.productionplan;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-
+import controller.accescontrol.BaseRBACController;
 import dal.DepartmentDBContext;
 import dal.PlanDBContext;
 import dal.ProductDBContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
@@ -20,12 +19,13 @@ import model.Department;
 import model.Plan;
 import model.PlanCampaign;
 import model.Product;
+import model.accesscontrol.User;
 
 /**
  *
  * @author Minh Duc
  */
-public class ProductionPlanCreate extends HttpServlet {
+public class ProductionPlanCreate extends BaseRBACController {
    
     /** 
      * Processes reqs for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -49,11 +49,12 @@ public class ProductionPlanCreate extends HttpServlet {
 //     * Handles the HTTP <code>GET</code> method.
      * @param req servlet req
      * @param resp servlet resp
+     * @param loggeduser
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser)
     throws ServletException, IOException {
         processRequest(req, resp);
     } 
@@ -62,11 +63,12 @@ public class ProductionPlanCreate extends HttpServlet {
      * Handles the HTTP <code>POST</code> method.
      * @param req servlet req
      * @param resp servlet resp
+     * @param loggeduser
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser)
     throws ServletException, IOException {
         String[] pids = req.getParameterValues("pid");
         
@@ -86,23 +88,20 @@ public class ProductionPlanCreate extends HttpServlet {
             
             PlanCampaign c = new PlanCampaign();
             c.setProduct(p);
-            String raw_quantity = req.getParameter("quantity"+pid);
-            String raw_effort = req.getParameter("effort"+pid);
-            c.setQuantity(raw_quantity != null && raw_quantity.length()>0?Integer.parseInt(raw_quantity):0);
-            c.setEstimatedeffort(raw_effort != null && raw_effort.length()>0?Float.parseFloat(raw_effort):0);
+            String raw_quantity = req.getParameter("quantity" + pid);
+            String raw_effort = req.getParameter("effort" + pid);
+            c.setQuantity(raw_quantity != null && raw_quantity.length() > 0 ? Integer.parseInt(raw_quantity) : 0);
+            c.setEstimatedeffort(raw_effort != null && raw_effort.length() > 0 ? Float.parseFloat(raw_effort) : 0);
             c.setPlan(plan);
-            if(c.getQuantity()!=0 && c.getEstimatedeffort()!=0)
+            if (c.getQuantity() != 0 && c.getEstimatedeffort() != 0)
                 plan.getCampaigns().add(c);
         }
         
-        if(plan.getCampaigns().size()>0)
-        {
+        if (plan.getCampaigns().size() > 0) {
             PlanDBContext db = new PlanDBContext();
             db.insert(plan);
-            resp.getWriter().println("created a new plan!");
-        }
-        else
-        {
+            resp.sendRedirect("list");
+        } else {
             resp.getWriter().println("your plan did not have any campains");
         }
     }
